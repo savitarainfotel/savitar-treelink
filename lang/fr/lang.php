@@ -714,4 +714,5 @@ return array (
   'reddit' => 'Reddit',
   'no_notifications_found' => 'No notifications found',
   'add_user' => 'Add User',
+  'link_resend_successfully' => 'Link resend Successfully',
 );
