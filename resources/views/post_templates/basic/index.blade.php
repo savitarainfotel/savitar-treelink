@@ -2,8 +2,8 @@
 @section('content')
 
     <div class="bg-animation basic-bg-animation">
-        <div class="min-vh-100 d-flex justify-content-center align-items-center">
-            <div class="quick-bio-wrapper position-relative animated fadeIn bg-white">
+        <div class="min-vh-100 bg-white d-flex justify-content-center align-items-center">
+            <div class="post-container quick-bio-wrapper position-relative animated fadeIn">
 
                 <div class="position-relative p-3">
                     @if(@$postOptions->cover_image)

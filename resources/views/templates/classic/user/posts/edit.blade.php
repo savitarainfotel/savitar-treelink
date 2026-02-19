@@ -209,7 +209,20 @@
 
                     {{-- Design --}}
                     <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
-                        <form class="ajax_submit_form" action="{{ route('biolinks.update', $post->id) }}" method="POST">
+                        <style>.theme-preset-active{box-shadow:0 0 0 2px #fff, 0 0 0 4px currentColor;}</style>
+                        @php
+                            $tc = isset($postOptions->theme_customization) ? (array) $postOptions->theme_customization : [];
+                            $tcBtn = $tc['button_color'] ?? '#ec4899';
+                            $tcBtnText = $tc['button_text_color'] ?? '#FFFFFF';
+                            $tcText = $tc['text_color'] ?? '#FFFFFF';
+                            $tcBgType = $tc['background_type'] ?? 'solid';
+                            $tcBgSolid = $tc['background_solid_color'] ?? '#ffffff';
+                            $tcBgGradient = $tc['background_gradient'] ?? '';
+                            $tcBgImage = $tc['background_image'] ?? '';
+                            $tcFont = $tc['font_family'] ?? '';
+                            $themePresets = ['#ec4899', '#92400e', '#2563eb', '#dc2626', '#a78bfa'];
+                        @endphp
+                        <form class="ajax_submit_form" action="{{ route('biolinks.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             @method('PUT')
                             <div class="bg-white px-30 py-30 shadow-3 rounded-3">
@@ -231,6 +244,99 @@
                                         </div>
                                     @endforeach
                                 </div>
+                            </div>
+                            <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
+                                <h3 class="fw-bold font-20 mb-16">{{ ___('Color Theme') }}</h3>
+                                <div class="d-flex align-items-center gap-2 mb-16 flex-wrap">
+                                    <span class="font-14 text-dark-1">{{ ___('Color Theme') }}</span>
+                                    <div class="d-flex align-items-center gap-2 ms-auto">
+                                        @foreach($themePresets as $idx => $hex)
+                                            <button type="button" class="theme-preset-btn border rounded-circle p-0 d-inline-flex align-items-center justify-content-center {{ $tcBtn == $hex ? 'theme-preset-active' : '' }}" data-hex="{{ $hex }}" style="width:28px;height:28px;background-color:{{ $hex }};" title="{{ $hex }}"></button>
+                                        @endforeach
+                                    </div>
+                                </div>
+                                <div class="row g-3 mb-16">
+                                    <div class="col-md-4">
+                                        <label class="form-label font-14">{{ ___('Button Color') }}</label>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="color" class="form-control form-control-color p-1" name="theme_button_color" id="theme_button_color" value="{{ $tcBtn }}" style="width:40px;height:40px;">
+                                            <input type="text" class="form-control text-field font-14" value="{{ $tcBtn }}" id="theme_button_color_hex" maxlength="7">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label font-14">{{ ___('Button Text Color') }}</label>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="color" class="form-control form-control-color p-1" name="theme_button_text_color" id="theme_button_text_color" value="{{ $tcBtnText }}" style="width:40px;height:40px;">
+                                            <input type="text" class="form-control text-field font-14" value="{{ $tcBtnText }}" id="theme_button_text_color_hex" maxlength="7">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label class="form-label font-14">{{ ___('Text Color') }}</label>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="color" class="form-control form-control-color p-1" name="theme_text_color" id="theme_text_color" value="{{ $tcText }}" style="width:40px;height:40px;">
+                                            <input type="text" class="form-control text-field font-14" value="{{ $tcText }}" id="theme_text_color_hex" maxlength="7">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
+                                <h3 class="fw-bold font-20 mb-16">{{ ___('Background Settings') }}</h3>
+                                <div class="mb-16">
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="theme_background_type" id="bg_type_solid" value="solid" {{ $tcBgType == 'solid' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="bg_type_solid">{{ ___('Solid Color') }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="theme_background_type" id="bg_type_gradient" value="gradient" {{ $tcBgType == 'gradient' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="bg_type_gradient">{{ ___('Gradient') }}</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="theme_background_type" id="bg_type_image" value="image" {{ $tcBgType == 'image' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="bg_type_image">{{ ___('Image') }}</label>
+                                    </div>
+                                </div>
+                                <div class="mb-16 theme-bg-solid-wrap" style="display:{{ $tcBgType == 'solid' ? 'block' : 'none' }};">
+                                    <label class="form-label font-14">{{ ___('Solid Color') }}</label>
+                                    <div class="d-flex align-items-center gap-2">
+                                        <input type="color" class="form-control form-control-color p-1" name="theme_background_solid_color" id="theme_background_solid_color" value="{{ $tcBgSolid }}" style="width:40px;height:40px;">
+                                        <input type="text" class="form-control text-field font-14" value="{{ $tcBgSolid }}" maxlength="7">
+                                    </div>
+                                </div>
+                                <div class="mb-16 theme-bg-gradient-wrap" style="display:{{ $tcBgType == 'gradient' ? 'block' : 'none' }};">
+                                    <label class="form-label font-14">{{ ___('Gradient') }}</label>
+                                    <input type="text" class="form-control text-field font-14" name="theme_background_gradient" placeholder="e.g. linear-gradient(135deg, #667eea 0%, #764ba2 100%)" value="{{ $tcBgGradient }}">
+                                </div>
+                                <div class="theme-bg-image-wrap" style="display:{{ $tcBgType == 'image' ? 'block' : 'none' }};">
+                                    <label class="form-label font-14">{{ ___('Background Image') }}</label>
+                                    <div class="d-flex align-items-center gap-2 flex-wrap mb-2">
+                                        <input type="text" class="form-control text-field font-14 flex-grow-1" id="theme_background_image_path" value="{{ $tcBgImage ? 'storage/post/logo/'.$tcBgImage : '' }}" readonly placeholder="{{ ___('No image') }}">
+                                        <input type="file" name="background_image" id="theme_background_image_file" accept="image/jpg,image/jpeg,image/png" class="d-none">
+                                        <button type="button" class="button -primary-l rounded-3" id="theme_browse_bg">{{ ___('Browse') }} <i class="fa-regular fa-image ms-1"></i></button>
+                                        <button type="button" class="button -outlined rounded-3 text-danger" id="theme_remove_bg" title="{{ ___('Remove') }}"><i class="fa-regular fa-xmark"></i></button>
+                                    </div>
+                                    <input type="hidden" name="remove_background_image" id="remove_background_image" value="0">
+                                    @if($tcBgImage)
+                                        <div class="mt-2 theme-bg-preview-wrap">
+                                            <img id="theme_bg_preview_img" src="{{ asset('storage/post/logo/'.$tcBgImage) }}" alt="Preview" class="rounded-3" style="max-height:80px;max-width:160px;object-fit:cover;">
+                                        </div>
+                                    @else
+                                        <div class="mt-2 theme-bg-preview-wrap d-none"><img id="theme_bg_preview_img" src="" alt="Preview" class="rounded-3" style="max-height:80px;max-width:160px;object-fit:cover;"></div>
+                                    @endif
+                                </div>
+                            </div>
+                            <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
+                                <h3 class="fw-bold font-20 mb-16">{{ ___('Font Family') }}</h3>
+                                <input type="text" class="form-control text-field font-14" name="theme_font_family" id="theme_font_family" value="{{ $tcFont }}" placeholder="{{ ___('e.g. Inter, sans-serif') }}" list="theme_font_list">
+                                <datalist id="theme_font_list">
+                                    <option value="Inter, sans-serif">
+                                    <option value="Poppins, sans-serif">
+                                    <option value="Open Sans, sans-serif">
+                                    <option value="Roboto, sans-serif">
+                                    <option value="Lato, sans-serif">
+                                    <option value="Montserrat, sans-serif">
+                                    <option value="Source Sans Pro, sans-serif">
+                                    <option value="system-ui, sans-serif">
+                                </datalist>
                             </div>
                             <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
                                 <div class="d-flex align-items-center justify-content-between">
@@ -1305,6 +1411,64 @@
                 $new_field.fadeIn('fast');
                 return $new_field;
             }
+
+            /* Theme customization: color sync */
+            function syncColorToHex(colorId, hexId) {
+                var hex = $('#' + colorId).val();
+                $('#' + hexId).val(hex);
+            }
+
+            function syncHexToColor(hexId, colorId) {
+                var hex = $('#' + hexId).val();
+                if (/^#[0-9A-Fa-f]{6}$/.test(hex)) {
+                    $('#' + colorId).val(hex);
+                }
+            }
+
+            $('#theme_button_color').on('input', function () { syncColorToHex('theme_button_color', 'theme_button_color_hex'); });
+            $('#theme_button_color_hex').on('input', function () { syncHexToColor('theme_button_color_hex', 'theme_button_color'); });
+            $('#theme_button_text_color').on('input', function () { syncColorToHex('theme_button_text_color', 'theme_button_text_color_hex'); });
+            $('#theme_button_text_color_hex').on('input', function () { syncHexToColor('theme_button_text_color_hex', 'theme_button_text_color'); });
+            $('#theme_text_color').on('input', function () { syncColorToHex('theme_text_color', 'theme_text_color_hex'); });
+            $('#theme_text_color_hex').on('input', function () { syncHexToColor('theme_text_color_hex', 'theme_text_color'); });
+
+            $('.theme-preset-btn').on('click', function () {
+                var hex = $(this).data('hex');
+                $('.theme-preset-btn').removeClass('theme-preset-active');
+                $(this).addClass('theme-preset-active');
+                $('#theme_button_color').val(hex);
+                $('#theme_button_color_hex').val(hex);
+                $('#theme_button_text_color').val("#ffffff" )
+                $('#theme_text_color').val("#ffffff")
+                $('#theme_button_text_color_hex').val("#ffffff")
+                $('#theme_text_color_hex').val("#ffffff")
+            });
+
+            $('input[name="theme_background_type"]').on('change', function () {
+                var v = $(this).val();
+                $('.theme-bg-solid-wrap').toggle(v === 'solid');
+                $('.theme-bg-gradient-wrap').toggle(v === 'gradient');
+                $('.theme-bg-image-wrap').toggle(v === 'image');
+            });
+
+            $('#theme_browse_bg').on('click', function () { $('#theme_background_image_file').click(); });
+            $('#theme_background_image_file').on('change', function () {
+                if (this.files && this.files[0]) {
+                    if (typeof readURL === 'function') {
+                        readURL(this, 'theme_bg_preview_img');
+                    }
+                    $('.theme-bg-preview-wrap').removeClass('d-none');
+                    $('#theme_background_image_path').val(this.files[0].name);
+                    $('#remove_background_image').val('0');
+                }
+            });
+            $('#theme_remove_bg').on('click', function () {
+                $('#theme_background_image_file').val('');
+                $('#theme_background_image_path').val('');
+                $('#remove_background_image').val('1');
+                $('.theme-bg-preview-wrap').addClass('d-none');
+                $('#theme_bg_preview_img').attr('src', '');
+            });
         </script>
     @endpush
 @endsection

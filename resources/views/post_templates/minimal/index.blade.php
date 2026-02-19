@@ -1,8 +1,8 @@
 @extends('post_templates.layout')
 @section('content')
     <div class="bg-animation minimal-bg-animation">
-        <div class="min-vh-100 d-flex justify-content-center align-items-center" id="">
-            <div class="quick-bio-wrapper position-relative animated fadeIn bg-primary-l">
+        <div class="min-vh-100 d-flex bg-white justify-content-center align-items-center" id="">
+            <div class="post-container quick-bio-wrapper position-relative animated fadeIn">
 
                 <div class="position-relative p-3">
                     @if(@$postOptions->cover_image)

@@ -1,11 +1,11 @@
 @extends('post_templates.layout')
 @section('content')
     <div class="bg-animation modern-bg-animation">
-        <div class="min-vh-100 d-flex justify-content-center align-items-center">
+        <div class="min-vh-100 d-flex bg-white justify-content-center align-items-center">
 
-            <div class="quick-bio-wrapper position-relative animated fadeIn">
-                <img class="quick-bio-bg-image"
-                     src="{{ asset('post_templates/'.$theme.'/image/bg.jpg') }}" alt="background"/>
+            <div class="post-container quick-bio-wrapper position-relative animated fadeIn">
+                {{-- <img class="quick-bio-bg-image"
+                     src="{{ asset('post_templates/'.$theme.'/image/bg.jpg') }}" alt="background"/> --}}
 
                 <div class="position-relative p-3">
                     @if(@$postOptions->cover_image)

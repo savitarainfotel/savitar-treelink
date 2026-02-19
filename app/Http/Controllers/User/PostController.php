@@ -250,12 +250,43 @@ class PostController extends Controller
                     }
 
                 } elseif ($request->type == 'design') {
+                    $validator = Validator::make($request->all(), [
+                        'background_image' => ['nullable', 'image', 'mimes:png,jpg,jpeg', 'max:2048'],
+                    ]);
+                    if ($validator->fails()) {
+                        $result = array('success' => false, 'message' => implode('<br>', $validator->errors()->all()));
+                        return response()->json($result, 200);
+                    }
+
                     $bio_credit = ($request->has('bio_credit')) ? 1 : 0;
                     $bio_share = ($request->has('bio_share')) ? 1 : 0;
 
                     PostOption::updatePostOption($biolink->id, 'biotheme', $request->biotheme);
                     PostOption::updatePostOption($biolink->id, 'bio_credit', $bio_credit);
                     PostOption::updatePostOption($biolink->id, 'bio_share', $bio_share);
+
+                    $custom = (array) (post_options($biolink->id, 'theme_customization') ?: []);
+                    $custom['button_color'] = $request->input('theme_button_color', $custom['button_color'] ?? '#ec4899');
+                    $custom['button_text_color'] = $request->input('theme_button_text_color', $custom['button_text_color'] ?? '#FFFFFF');
+                    $custom['text_color'] = $request->input('theme_text_color', $custom['text_color'] ?? '#FFFFFF');
+                    $custom['background_type'] = $request->input('theme_background_type', $custom['background_type'] ?? 'solid');
+                    $custom['background_solid_color'] = $request->input('theme_background_solid_color', $custom['background_solid_color'] ?? '#ffffff');
+                    $custom['background_gradient'] = $request->input('theme_background_gradient', $custom['background_gradient'] ?? '');
+                    $custom['font_family'] = $request->input('theme_font_family', $custom['font_family'] ?? '');
+
+                    if ($request->has('remove_background_image') && $request->remove_background_image) {
+                        if (!empty($custom['background_image'])) {
+                            remove_file('storage/post/logo/' . $custom['background_image']);
+                        }
+                        $custom['background_image'] = '';
+                    } elseif ($request->hasFile('background_image')) {
+                        if (!empty($custom['background_image'])) {
+                            remove_file('storage/post/logo/' . $custom['background_image']);
+                        }
+                        $custom['background_image'] = image_upload($request->file('background_image'), 'storage/post/logo/', null, 'bio-bg-' . $biolink->id);
+                    }
+
+                    PostOption::updatePostOption($biolink->id, 'theme_customization', $custom);
 
                     $result = array('success' => true, 'message' => ___('Updated Successfully'));
                     return response()->json($result, 200);

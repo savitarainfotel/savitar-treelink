@@ -356,3 +356,34 @@
         min-height: 100vh;
     }
 }
+
+/* Theme customization (Color Theme, Font Family from Design tab) */
+body.bio-custom-theme .quick-bio-wrapper {
+    font-family: var(--bio-font-family, inherit) !important;
+}
+body.bio-custom-theme .bio-title,
+body.bio-custom-theme .bio-name,
+body.bio-custom-theme .quick-bio-link-heading {
+    color: var(--bio-text-color, inherit) !important;
+}
+body.bio-custom-theme .quick-bio-item .item-wrapper {
+    background-color: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+    color: var(--bio-button-text-color, #fff) !important;
+    border-color: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+}
+body.bio-custom-theme .quick-bio-item .item-wrapper:hover {
+    opacity: 0.92 !important;
+}
+body.bio-custom-theme .copy-input-button {
+    background: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+    border-color: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+    color: var(--bio-button-text-color, #fff) !important;
+}
+body.bio-custom-theme .quick-social-icon a {
+    background: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+    border-color: var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+    color: var(--bio-button-text-color, #fff) !important;
+}
+body.bio-custom-theme .copy-input {
+    border: 1px solid var(--bio-button-color, var(--color-info, #0d6efd)) !important;
+}

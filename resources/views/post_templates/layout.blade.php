@@ -30,10 +30,40 @@
     <link rel="stylesheet" href="{{ asset('global/fonts/css/fontawesome.css') }}">
     <link rel="stylesheet" href="{{ asset($activeThemeAssets.'assets/css/helper.css') }}">
     <link rel="stylesheet" href="{{ asset($activeThemeAssets.'assets/plugin/wow-animate/animate.css') }}">
-    <link rel="stylesheet" href="{{ asset('post_templates/template-style.css') }}">
-
+    <link rel="stylesheet" href="{{ asset('post_templates/template-style.css?v=').time() }}">
+    @php
+        $tc = isset($postOptions->theme_customization) ? (array) $postOptions->theme_customization : [];
+        $hasCustom = !empty($tc['button_color']) || !empty($tc['text_color']) || !empty($tc['background_type']) || !empty($tc['font_family']);
+    @endphp
+    @if($hasCustom)
+        <style>
+            body.bio-custom-theme {
+                @if(!empty($tc['button_color'])) --bio-button-color: {{ $tc['button_color'] }}; @endif
+                @if(!empty($tc['button_text_color'])) --bio-button-text-color: {{ $tc['button_text_color'] }}; @endif
+                @if(!empty($tc['text_color'])) --bio-text-color: {{ $tc['text_color'] }}; @endif
+                @if(!empty($tc['font_family'])) --bio-font-family: {{ $tc['font_family'] }}; @endif
+            }
+            @if(!empty($tc['background_type']))
+                
+                body.bio-custom-theme .bg-animation.basic-bg-animation .post-container,
+                body.bio-custom-theme .bg-animation.modern-bg-animation .post-container,
+                body.bio-custom-theme .bg-animation.minimal-bg-animation .post-container,
+                body.bio-custom-theme .bg-animation.sky-bg-animation .post-container,
+                body.bio-custom-theme .bg-animation.sunny-bg-animation .post-container,
+                body.bio-custom-theme .bg-animation.snow-bg-animation .post-container {
+                    @if(($tc['background_type'] ?? '') === 'solid' && !empty($tc['background_solid_color']))
+                        background: {{ $tc['background_solid_color'] }};
+                    @elseif(($tc['background_type'] ?? '') === 'gradient' && !empty($tc['background_gradient']))
+                        background: {!! $tc['background_gradient'] !!};
+                    @elseif(($tc['background_type'] ?? '') === 'image' && !empty($tc['background_image']))
+                        background: url('{{ asset('storage/post/logo/'.$tc['background_image']) }}') center/cover no-repeat;
+                    @endif
+                }
+            @endif
+        </style>
+    @endif
 </head>
-<body>
+<body class="{{ $hasCustom ? 'bio-custom-theme' : '' }}">
 @yield('content')
 
 <div class="animated fadeIn modal" id="share_social" tabindex="-1" aria-labelledby="shareModalLable" aria-hidden="true">
