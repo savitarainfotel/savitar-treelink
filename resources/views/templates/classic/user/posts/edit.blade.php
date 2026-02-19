@@ -209,7 +209,7 @@
 
                     {{-- Design --}}
                     <div class="tab-pane fade" id="design" role="tabpanel" aria-labelledby="design-tab">
-                        <style>.theme-preset-active{box-shadow:0 0 0 2px #fff, 0 0 0 4px currentColor;}</style>
+                        <style>.theme-preset-active{box-shadow:0 0 0 2px #fff, 0 0 0 4px currentColor;}.theme-gradient-swatch-active{box-shadow:0 0 0 2px #fff, 0 0 0 4px currentColor;}</style>
                         @php
                             $tc = isset($postOptions->theme_customization) ? (array) $postOptions->theme_customization : [];
                             $tcBtn = $tc['button_color'] ?? '#ec4899';
@@ -221,6 +221,11 @@
                             $tcBgImage = $tc['background_image'] ?? '';
                             $tcFont = $tc['font_family'] ?? '';
                             $themePresets = ['#ec4899', '#92400e', '#2563eb', '#dc2626', '#a78bfa'];
+                            $gradientPresets = [
+                                'linear-gradient(to right, #6F42C1, #A16EE7)',
+                                'linear-gradient(to right, #17A2B8, #4FC8D8)',
+                                'linear-gradient(135deg, #ff9a9e, #fad0c4)',
+                            ];
                         @endphp
                         <form class="ajax_submit_form" action="{{ route('biolinks.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -304,7 +309,12 @@
                                 </div>
                                 <div class="mb-16 theme-bg-gradient-wrap" style="display:{{ $tcBgType == 'gradient' ? 'block' : 'none' }};">
                                     <label class="form-label font-14">{{ ___('Gradient') }}</label>
-                                    <input type="text" class="form-control text-field font-14" name="theme_background_gradient" placeholder="e.g. linear-gradient(135deg, #667eea 0%, #764ba2 100%)" value="{{ $tcBgGradient }}">
+                                    <input type="text" class="form-control text-field font-14 mb-2" id="theme_background_gradient" name="theme_background_gradient" placeholder="e.g. linear-gradient(135deg, #667eea 0%, #764ba2 100%)" value="{{ $tcBgGradient }}">
+                                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                                        @foreach($gradientPresets as $gradientCss)
+                                            <button type="button" class="theme-gradient-swatch border rounded-3 p-0 d-inline-block {{ (trim($tcBgGradient) === trim($gradientCss)) ? 'theme-gradient-swatch-active' : '' }}" data-gradient="{{ e($gradientCss) }}" style="width:64px;height:36px;background:{{ $gradientCss }};" title="{{ $gradientCss }}"></button>
+                                        @endforeach
+                                    </div>
                                 </div>
                                 <div class="theme-bg-image-wrap" style="display:{{ $tcBgType == 'image' ? 'block' : 'none' }};">
                                     <label class="form-label font-14">{{ ___('Background Image') }}</label>
@@ -1449,6 +1459,12 @@
                 $('.theme-bg-solid-wrap').toggle(v === 'solid');
                 $('.theme-bg-gradient-wrap').toggle(v === 'gradient');
                 $('.theme-bg-image-wrap').toggle(v === 'image');
+            });
+            $('.theme-gradient-swatch').on('click', function () {
+                var gradient = $(this).data('gradient');
+                $('.theme-gradient-swatch').removeClass('theme-gradient-swatch-active');
+                $(this).addClass('theme-gradient-swatch-active');
+                $('#theme_background_gradient').val(gradient);
             });
 
             $('#theme_browse_bg').on('click', function () { $('#theme_background_image_file').click(); });
