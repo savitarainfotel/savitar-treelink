@@ -481,6 +481,8 @@ return array (
   'solid_color' => 'Solid Color',
   'gradient' => 'Gradient',
   'background_image' => 'Background Image',
+  'image_opacity' => 'Image Opacity',
+  'background_image_opacity_hint' => 'Only the background image opacity is affected, not the content.',
   'browse' => 'Browse',
   'font_family' => 'Font Family',
   'no_image' => 'No image',

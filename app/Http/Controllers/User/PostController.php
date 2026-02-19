@@ -272,6 +272,7 @@ class PostController extends Controller
                     $custom['background_type'] = $request->input('theme_background_type', $custom['background_type'] ?? 'solid');
                     $custom['background_solid_color'] = $request->input('theme_background_solid_color', $custom['background_solid_color'] ?? '#ffffff');
                     $custom['background_gradient'] = $request->input('theme_background_gradient', $custom['background_gradient'] ?? '');
+                    $custom['background_image_opacity'] = $request->input('theme_background_image_opacity', $custom['background_image_opacity'] ?? '100');
                     $custom['font_family'] = $request->input('theme_font_family', $custom['font_family'] ?? '');
 
                     if ($request->has('remove_background_image') && $request->remove_background_image) {

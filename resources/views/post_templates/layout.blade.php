@@ -43,7 +43,6 @@
                 @if(!empty($tc['text_color'])) --bio-text-color: {{ $tc['text_color'] }}; @endif
             }
             @if(!empty($tc['background_type']))
-                
                 body.bio-custom-theme .bg-animation.basic-bg-animation .post-container,
                 body.bio-custom-theme .bg-animation.modern-bg-animation .post-container,
                 body.bio-custom-theme .bg-animation.minimal-bg-animation .post-container,
@@ -55,9 +54,30 @@
                     @elseif(($tc['background_type'] ?? '') === 'gradient' && !empty($tc['background_gradient']))
                         background: {!! $tc['background_gradient'] !!};
                     @elseif(($tc['background_type'] ?? '') === 'image' && !empty($tc['background_image']))
-                        background: url('{{ asset('storage/post/logo/'.$tc['background_image']) }}') center/cover no-repeat;
+                        background: #ffffff;
                     @endif
                 }
+                @if(($tc['background_type'] ?? '') === 'image' && !empty($tc['background_image']))
+                    @php
+                        $bgImageOpacity = isset($tc['background_image_opacity']) ? max(0, min(100, (int) $tc['background_image_opacity'])) : 100;
+                        $bgImageOpacityCss = $bgImageOpacity / 100;
+                    @endphp
+                    body.bio-custom-theme .bg-animation.basic-bg-animation .post-container::before,
+                    body.bio-custom-theme .bg-animation.modern-bg-animation .post-container::before,
+                    body.bio-custom-theme .bg-animation.minimal-bg-animation .post-container::before,
+                    body.bio-custom-theme .bg-animation.sky-bg-animation .post-container::before,
+                    body.bio-custom-theme .bg-animation.sunny-bg-animation .post-container::before,
+                    body.bio-custom-theme .bg-animation.snow-bg-animation .post-container::before {
+                        content: '';
+                        position: absolute;
+                        inset: 0;
+                        z-index: 0;
+                        background: url('{{ asset('storage/post/logo/'.$tc['background_image']) }}') center/cover no-repeat;
+                        opacity: {{ $bgImageOpacityCss }};
+                        border-radius: inherit;
+                        pointer-events: none;
+                    }
+                @endif
             @endif
         </style>
     @endif

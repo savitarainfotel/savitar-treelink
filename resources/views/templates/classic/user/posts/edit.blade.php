@@ -219,6 +219,7 @@
                             $tcBgSolid = $tc['background_solid_color'] ?? '#ffffff';
                             $tcBgGradient = $tc['background_gradient'] ?? '';
                             $tcBgImage = $tc['background_image'] ?? '';
+                            $tcBgImageOpacity = $tc['background_image_opacity'] ?? '100';
                             $tcFont = $tc['font_family'] ?? '';
                             $themePresets = ['#ec4899', '#92400e', '#2563eb', '#dc2626', '#a78bfa'];
                             $gradientPresets = [
@@ -325,6 +326,14 @@
                                         <button type="button" class="button -outlined rounded-3 text-danger" id="theme_remove_bg" title="{{ ___('Remove') }}"><i class="fa-regular fa-xmark"></i></button>
                                     </div>
                                     <input type="hidden" name="remove_background_image" id="remove_background_image" value="0">
+                                    <div class="mb-16 mt-16">
+                                        <label class="form-label font-14">{{ ___('image_opacity') }}</label>
+                                        <div class="d-flex align-items-center gap-2">
+                                            <input type="range" class="form-range flex-grow-1" name="theme_background_image_opacity" id="theme_background_image_opacity" min="0" max="100" value="{{ $tcBgImageOpacity }}">
+                                            <span class="font-14 text-dark-1 min-w-40" id="theme_background_image_opacity_label">{{ $tcBgImageOpacity }}%</span>
+                                        </div>
+                                        <small class="text-muted font-12">{{ ___('background_image_opacity_hint') }}</small>
+                                    </div>
                                     @if($tcBgImage)
                                         <div class="mt-2 theme-bg-preview-wrap">
                                             <img id="theme_bg_preview_img" src="{{ asset('storage/post/logo/'.$tcBgImage) }}" alt="Preview" class="rounded-3" style="max-height:80px;max-width:160px;object-fit:cover;">
@@ -1474,6 +1483,9 @@
                 $('#remove_background_image').val('1');
                 $('.theme-bg-preview-wrap').addClass('d-none');
                 $('#theme_bg_preview_img').attr('src', '');
+            });
+            $('#theme_background_image_opacity').on('input change', function () {
+                $('#theme_background_image_opacity_label').text($(this).val() + '%');
             });
         </script>
     @endpush

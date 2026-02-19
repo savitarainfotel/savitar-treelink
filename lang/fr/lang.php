@@ -481,6 +481,8 @@ return array (
   'solid_color' => 'Couleur unie',
   'gradient' => 'Dégradé',
   'background_image' => 'Image d\'arrière-plan',
+  'image_opacity' => 'Opacité de l\'image',
+  'background_image_opacity_hint' => 'Seule l\'opacité de l\'image de fond est modifiée, pas le contenu.',
   'browse' => 'Parcourir',
   'font_family' => 'Police de caractères',
   'no_image' => 'Aucune image',
