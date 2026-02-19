@@ -226,6 +226,19 @@
                                 'linear-gradient(to right, #17A2B8, #4FC8D8)',
                                 'linear-gradient(135deg, #ff9a9e, #fad0c4)',
                             ];
+                            $fontFamilyOptions = [
+                                'Inter, sans-serif',
+                                'Poppins, sans-serif',
+                                'Open Sans, sans-serif',
+                                'Roboto, sans-serif',
+                                'Lato, sans-serif',
+                                'Montserrat, sans-serif',
+                                'Source Sans Pro, sans-serif',
+                                'Nunito, sans-serif',
+                                'Raleway, sans-serif',
+                                'Work Sans, sans-serif',
+                                'system-ui, sans-serif',
+                            ];
                         @endphp
                         <form class="ajax_submit_form" action="{{ route('biolinks.update', $post->id) }}" method="POST" enctype="multipart/form-data">
                             @csrf
@@ -336,17 +349,11 @@
                             </div>
                             <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
                                 <h3 class="fw-bold font-20 mb-16">{{ ___('Font Family') }}</h3>
-                                <input type="text" class="form-control text-field font-14" name="theme_font_family" id="theme_font_family" value="{{ $tcFont }}" placeholder="{{ ___('e.g. Inter, sans-serif') }}" list="theme_font_list">
-                                <datalist id="theme_font_list">
-                                    <option value="Inter, sans-serif">
-                                    <option value="Poppins, sans-serif">
-                                    <option value="Open Sans, sans-serif">
-                                    <option value="Roboto, sans-serif">
-                                    <option value="Lato, sans-serif">
-                                    <option value="Montserrat, sans-serif">
-                                    <option value="Source Sans Pro, sans-serif">
-                                    <option value="system-ui, sans-serif">
-                                </datalist>
+                                <select class="form-control text-field font-14" name="theme_font_family" id="theme_font_family">
+                                    @foreach($fontFamilyOptions as $fontOption)
+                                        <option value="{{ e($fontOption) }}" {{ $tcFont == e($fontOption) ? 'selected' : '' }}>{{e($fontOption)}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
                                 <div class="d-flex align-items-center justify-content-between">
@@ -1465,6 +1472,10 @@
                 $('.theme-gradient-swatch').removeClass('theme-gradient-swatch-active');
                 $(this).addClass('theme-gradient-swatch-active');
                 $('#theme_background_gradient').val(gradient);
+            });
+            $('#theme_font_family').on('input change', function () {
+                var val = $(this).val().trim();
+                this.style.fontFamily = val ? val : 'inherit';
             });
 
             $('#theme_browse_bg').on('click', function () { $('#theme_background_image_file').click(); });
