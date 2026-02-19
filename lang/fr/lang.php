@@ -729,4 +729,9 @@ return array (
   'add_user' => 'Add User',
   'link_resend_successfully' => 'Link resend Successfully',
   'eg_inter_sans_serif' => 'e.g. Inter, sans-serif',
+  'invalid_2fa_otp_code' => 'Invalid 2FA OTP Code',
+  '2fa_authentication_enabled_successfully' => '2FA Authentication enabled successfully',
+  'disable_2fa_authentication' => 'Disable 2FA Authentication',
+  'disable' => 'Disable',
+  '2fa_verification' => '2Fa Verification',
 );
