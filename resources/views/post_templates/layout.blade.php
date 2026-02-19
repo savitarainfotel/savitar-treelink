@@ -33,7 +33,7 @@
     <link rel="stylesheet" href="{{ asset('post_templates/template-style.css?v=').time() }}">
     @php
         $tc = isset($postOptions->theme_customization) ? (array) $postOptions->theme_customization : [];
-        $hasCustom = !empty($tc['button_color']) || !empty($tc['text_color']) || !empty($tc['background_type']) || !empty($tc['font_family']);
+        $hasCustom = !empty($tc['button_color']) || !empty($tc['text_color']) || !empty($tc['background_type']);
     @endphp
     @if($hasCustom)
         <style>
@@ -41,7 +41,6 @@
                 @if(!empty($tc['button_color'])) --bio-button-color: {{ $tc['button_color'] }}; @endif
                 @if(!empty($tc['button_text_color'])) --bio-button-text-color: {{ $tc['button_text_color'] }}; @endif
                 @if(!empty($tc['text_color'])) --bio-text-color: {{ $tc['text_color'] }}; @endif
-                @if(!empty($tc['font_family'])) --bio-font-family: {{ $tc['font_family'] }}; @endif
             }
             @if(!empty($tc['background_type']))
                 

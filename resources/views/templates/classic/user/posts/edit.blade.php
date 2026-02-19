@@ -222,22 +222,9 @@
                             $tcFont = $tc['font_family'] ?? '';
                             $themePresets = ['#ec4899', '#92400e', '#2563eb', '#dc2626', '#a78bfa'];
                             $gradientPresets = [
-                                'linear-gradient(to right, #6F42C1, #A16EE7)',
-                                'linear-gradient(to right, #17A2B8, #4FC8D8)',
+                                'linear-gradient(135deg, #667eea, #764ba2)',
+                                'linear-gradient(135deg, #13547a, #80d0c7)',
                                 'linear-gradient(135deg, #ff9a9e, #fad0c4)',
-                            ];
-                            $fontFamilyOptions = [
-                                'Inter, sans-serif',
-                                'Poppins, sans-serif',
-                                'Open Sans, sans-serif',
-                                'Roboto, sans-serif',
-                                'Lato, sans-serif',
-                                'Montserrat, sans-serif',
-                                'Source Sans Pro, sans-serif',
-                                'Nunito, sans-serif',
-                                'Raleway, sans-serif',
-                                'Work Sans, sans-serif',
-                                'system-ui, sans-serif',
                             ];
                         @endphp
                         <form class="ajax_submit_form" action="{{ route('biolinks.update', $post->id) }}" method="POST" enctype="multipart/form-data">
@@ -346,14 +333,6 @@
                                         <div class="mt-2 theme-bg-preview-wrap d-none"><img id="theme_bg_preview_img" src="" alt="Preview" class="rounded-3" style="max-height:80px;max-width:160px;object-fit:cover;"></div>
                                     @endif
                                 </div>
-                            </div>
-                            <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
-                                <h3 class="fw-bold font-20 mb-16">{{ ___('Font Family') }}</h3>
-                                <select class="form-control text-field font-14" name="theme_font_family" id="theme_font_family">
-                                    @foreach($fontFamilyOptions as $fontOption)
-                                        <option value="{{ e($fontOption) }}" {{ $tcFont == e($fontOption) ? 'selected' : '' }}>{{e($fontOption)}}</option>
-                                    @endforeach
-                                </select>
                             </div>
                             <div class="bg-white px-30 py-30 shadow-3 rounded-3 mt-30">
                                 <div class="d-flex align-items-center justify-content-between">

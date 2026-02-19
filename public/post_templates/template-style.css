@@ -358,9 +358,6 @@
 }
 
 /* Theme customization (Color Theme, Font Family from Design tab) */
-body.bio-custom-theme .quick-bio-wrapper {
-    font-family: var(--bio-font-family, inherit) !important;
-}
 body.bio-custom-theme .bio-title,
 body.bio-custom-theme .bio-name,
 body.bio-custom-theme .quick-bio-link-heading {
