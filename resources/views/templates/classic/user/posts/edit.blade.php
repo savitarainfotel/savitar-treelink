@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-sm-4 d-none d-sm-block" id="stickySidebar">
                 <div class="overflow-hidden phone-frame">
-                    <iframe id="bioframe" class="bg-white w-100 h-100" src="{{ url('/') }}/{{ $post->slug }}"
+                    <iframe id="bioframe" class="bg-white w-100 h-100" src="{{ url('/') }}/{{ $post->slug }}?iframe=1"
                             title="{{ $post->title }}"></iframe>
                 </div>
             </div>

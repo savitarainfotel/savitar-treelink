@@ -112,7 +112,7 @@ class PostController extends Controller
      *
      * @param string $slug
      */
-    public function publicView($slug)
+    public function publicView(Request $request, $slug)
     {
         $post = Post::where('slug', $slug)->first();
         if ($post) {
@@ -120,7 +120,9 @@ class PostController extends Controller
             /* check user's plan is enabled */
             if ($post->user->plan()->status) {
 
-                $post->increment('views');
+                if(!$request->boolean('iframe')) {
+                    $post->increment('views');
+                }
 
                 $postOptions = post_options($post->id);
                 if (empty($postOptions->biotheme)) {
